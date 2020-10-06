@@ -6,8 +6,8 @@ public class InputsController : MonoBehaviour
 {
     
     [SerializeField] private Vector2 playerSpeed;
-    [SerializeField] float gravityUp;
-    [SerializeField] float gravityDown;
+    [SerializeField] private float gravityUp;
+    [SerializeField] private float gravityDown;
     [SerializeField] private float maxSpeed;
     [SerializeField] private float jumpForce;
     [SerializeField] private float raycastDistance;
@@ -23,8 +23,6 @@ public class InputsController : MonoBehaviour
 
 
 
-    private Vector2 speed;
-
     void Start()
     {
         playerSpeed = Vector2.zero;
@@ -36,8 +34,7 @@ public class InputsController : MonoBehaviour
 
         RaycastCollision();
 
-        //Gere la gravité appliquée au joueur
-        PlayerGravity();
+
 
         //Gere les déplacements horizontaux du joueur
         HorizMovementsInputs();
@@ -113,20 +110,17 @@ public class InputsController : MonoBehaviour
 
     private void RaycastCollision()
     {
-        //RaycastHit2D hit;
         if(Physics2D.Raycast(PlayerPosition, Vector2.down, transform.lossyScale.y, layers))
         {
             isGrounded = true;
-
-            gravityDown = 0;
-            gravityUp = 0;
             playerSpeed.y = 0;
         }
         else
         {
             isGrounded = false;
+            PlayerGravity();
         }
-
+        Debug.Log(isGrounded);
 
     }
 
