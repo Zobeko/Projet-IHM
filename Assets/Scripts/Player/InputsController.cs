@@ -11,7 +11,8 @@ public class InputsController : MonoBehaviour
     [SerializeField] private float maxSpeed;
     [SerializeField] private float jumpForce;
     [SerializeField] private float raycastDistance;
-    [SerializeField] private LayerMask layers;
+    [SerializeField] private LayerMask layerNotTraversablePlatforms;
+    [SerializeField] private LayerMask layerTraversablePlatforms;
     [SerializeField] private Vector2 playerPosition;
     public Vector2 PlayerPosition
     {
@@ -110,7 +111,8 @@ public class InputsController : MonoBehaviour
 
     private void RaycastCollision()
     {
-        if(Physics2D.Raycast(PlayerPosition, Vector2.down, transform.lossyScale.y, layers))
+        //Raycast vers le bas pour detecter collisions plateformes
+        if(Physics2D.Raycast(PlayerPosition, Vector2.down, transform.lossyScale.y, layerNotTraversablePlatforms + layerTraversablePlatforms))
         {
             isGrounded = true;
             playerSpeed.y = Mathf.Max(0, playerSpeed.y);
@@ -120,7 +122,13 @@ public class InputsController : MonoBehaviour
             isGrounded = false;
             PlayerGravity();
         }
-        Debug.Log(isGrounded);
+        
+        if(Physics2D.Raycast(PlayerPosition, Vector2.up, transform.lossyScale.y, layerNotTraversablePlatforms))
+        {
+            playerSpeed.y = -gravityDown;
+            PlayerGravity();
+            
+        }
 
     }
 
