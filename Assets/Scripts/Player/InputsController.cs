@@ -78,11 +78,11 @@ public class InputsController : MonoBehaviour
 
         if(horizMvt >= 0.1f)
         {
-            playerSpeed.x = horizMvt;
+            playerSpeed.x = horizMvt * maxSpeed;
         }
         else if (horizMvt <= -0.1f )
         {
-            playerSpeed.x = horizMvt;
+            playerSpeed.x = horizMvt * maxSpeed;
         }
         else
         {
@@ -113,7 +113,7 @@ public class InputsController : MonoBehaviour
         if(Physics2D.Raycast(PlayerPosition, Vector2.down, transform.lossyScale.y, layers))
         {
             isGrounded = true;
-            playerSpeed.y = 0;
+            playerSpeed.y = Mathf.Max(0, playerSpeed.y);
         }
         else
         {
