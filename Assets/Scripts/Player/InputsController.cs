@@ -3,24 +3,64 @@ using UnityEngine;
 
 public class InputsController : MonoBehaviour
 {
+    
+    [SerializeField] private Vector2 playerSpeed;
+    [SerializeField] float gravityUp;
+    [SerializeField] float gravityDown;
+    [SerializeField] private float maxSpeed;
     [SerializeField] private float jumpForce;
-    [SerializeField] private float jumpFactor;
 
-    private PlayerAvatar playerAvatar;
-    private PlayerEngine playerEngine;
+    [SerializeField] private Vector2 playerPosition;
+    public Vector2 PlayerPosition
+    {
+        get { return transform.position; }
+        set { transform.position = value; }
+    }
+
+
 
     private Vector2 speed;
 
-    void Awake()
+    void Start()
     {
-        playerAvatar = GetComponent<PlayerAvatar>();
-        playerEngine = GetComponent<PlayerEngine>();
+        playerSpeed = Vector2.zero;
     }
 
     void Update()
     {
+        //Gere la gravité appliquée au joueur
+        PlayerGravity();
+
+        //Gere les déplacements horizontaux du joueur
         HorizMovementsInputs();
+
+        //Gere le saut et double saut
+        JumpInputs();
+
+        //Update la position du joueur à chaque frame
+        UpdatePosition();
     }
+
+
+    private void PlayerGravity()
+    {
+        if(playerSpeed.y > 0)
+        {
+            playerSpeed.y -= gravityUp;
+        }
+        else 
+        {
+            playerSpeed.y -= gravityDown;
+        }
+        
+    }
+
+    private void UpdatePosition()
+    {
+        PlayerPosition += playerSpeed * Time.deltaTime;
+    }
+
+    
 
     private void HorizMovementsInputs()
     {
@@ -33,35 +73,34 @@ public class InputsController : MonoBehaviour
 
         if(horizMvt >= 0.1f)
         {
-            speed = Vector2.right *horizMvt;
+            playerSpeed.x = horizMvt;
         }
         else if (horizMvt <= -0.1f )
         {
-            speed = Vector2.right * horizMvt;
+            playerSpeed.x = horizMvt;
         }
         else
         {
-            speed = Vector2.right * 0;
+            playerSpeed.x = 0;
         }
 
-        if(playerEngine.PlayerSpeed.y > 0)
-        {
-            speed.y += jumpFactor;
-        }
+        
         //Gere le saut simple
-        if (Input.GetButtonDown("Jump"))
-        {
-            speed = new Vector2(horizMvt, jumpForce);
-        }
+        
 
-        playerEngine.PlayerSpeed = speed * playerAvatar.MaxSpeed * Time.deltaTime;
+        //playerSpeed = speed * maxSpeed;
         
     }
 
     private void JumpInputs()
     {
+        if (Input.GetButtonDown("Jump"))
+        {
+            playerSpeed.y = jumpForce;
+        }
 
-        
+
+        //playerSpeed = speed * maxSpeed;
     }
 
 }
