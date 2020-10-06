@@ -1,6 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
 public class InputsController : MonoBehaviour
 {
     
@@ -9,13 +10,16 @@ public class InputsController : MonoBehaviour
     [SerializeField] float gravityDown;
     [SerializeField] private float maxSpeed;
     [SerializeField] private float jumpForce;
-
+    [SerializeField] private float raycastDistance;
+    [SerializeField] private LayerMask layers;
     [SerializeField] private Vector2 playerPosition;
     public Vector2 PlayerPosition
     {
         get { return transform.position; }
         set { transform.position = value; }
     }
+
+    private bool isGrounded = false;
 
 
 
@@ -28,6 +32,10 @@ public class InputsController : MonoBehaviour
 
     void Update()
     {
+        
+
+        RaycastCollision();
+
         //Gere la gravité appliquée au joueur
         PlayerGravity();
 
@@ -48,7 +56,7 @@ public class InputsController : MonoBehaviour
         {
             playerSpeed.y -= gravityUp;
         }
-        else 
+        else if (playerSpeed.y <= 0)
         {
             playerSpeed.y -= gravityDown;
         }
@@ -101,6 +109,25 @@ public class InputsController : MonoBehaviour
 
 
         //playerSpeed = speed * maxSpeed;
+    }
+
+    private void RaycastCollision()
+    {
+        //RaycastHit2D hit;
+        if(Physics2D.Raycast(PlayerPosition, Vector2.down, transform.lossyScale.y, layers))
+        {
+            isGrounded = true;
+
+            gravityDown = 0;
+            gravityUp = 0;
+            playerSpeed.y = 0;
+        }
+        else
+        {
+            isGrounded = false;
+        }
+
+
     }
 
 }
