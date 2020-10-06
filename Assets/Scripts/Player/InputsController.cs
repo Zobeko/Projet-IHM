@@ -9,6 +9,7 @@ public class InputsController : MonoBehaviour
     [SerializeField] private float gravityUp;
     [SerializeField] private float gravityDown;
     [SerializeField] private float maxSpeed;
+    [SerializeField] private int maxJumps = 2;
     [SerializeField] private float jumpForce;
     [SerializeField] private float raycastDistance;
     [SerializeField] private LayerMask layerNotTraversablePlatforms;
@@ -21,6 +22,8 @@ public class InputsController : MonoBehaviour
     }
 
     private bool isGrounded = false;
+
+    private int jumpsCounter = 0;
 
 
 
@@ -100,9 +103,10 @@ public class InputsController : MonoBehaviour
 
     private void JumpInputs()
     {
-        if (Input.GetButtonDown("Jump"))
+        if (Input.GetButtonDown("Jump") && jumpsCounter < maxJumps)
         {
             playerSpeed.y = jumpForce;
+            jumpsCounter++;
         }
 
 
@@ -115,6 +119,7 @@ public class InputsController : MonoBehaviour
         if(Physics2D.Raycast(PlayerPosition, Vector2.down, transform.lossyScale.y, layerNotTraversablePlatforms + layerTraversablePlatforms))
         {
             isGrounded = true;
+            jumpsCounter = 0;
             playerSpeed.y = Mathf.Max(0, playerSpeed.y);
         }
         else
