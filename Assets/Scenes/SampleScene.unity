@@ -304,7 +304,7 @@ MonoBehaviour:
   gravityUp: 0.4
   gravityDown: 0.3
   maxSpeed: 10
-  maxJumps: 2
+  maxJumps: 3
   jumpForce: 15
   raycastDistance: 0.1
   layerNotTraversablePlatforms:
