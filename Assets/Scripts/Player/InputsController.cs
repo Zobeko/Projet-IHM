@@ -11,21 +11,20 @@ public class InputsController : MonoBehaviour
     [SerializeField] private float maxSpeed;
     [SerializeField] private int maxJumps = 2;
     [SerializeField] private float jumpForce;
-    [SerializeField] private float raycastDistance;
     [SerializeField] private LayerMask layerNotTraversablePlatforms;
     [SerializeField] private LayerMask layerTraversablePlatforms;
     [SerializeField] private Vector2 playerPosition;
+
+    
     public Vector2 PlayerPosition
     {
         get { return transform.position; }
         set { transform.position = value; }
     }
 
-    private bool isGrounded = false;
+    public bool isGrounded = false;
 
     private int jumpsCounter = 0;
-
-
 
     void Start()
     {
@@ -33,18 +32,18 @@ public class InputsController : MonoBehaviour
     }
 
     void Update()
-    {
-        
-
-        RaycastCollision();
-
-
-
+    {  
         //Gere les déplacements horizontaux du joueur
         HorizMovementsInputs();
 
         //Gere le saut et double saut
         JumpInputs();
+
+        //Gere la gravité
+        PlayerGravity();
+
+        //Gere les collisions avec les plateformes
+        RaycastCollision();
 
         //Update la position du joueur à chaque frame
         UpdatePosition();
@@ -60,8 +59,7 @@ public class InputsController : MonoBehaviour
         else if (playerSpeed.y <= 0)
         {
             playerSpeed.y -= gravityDown;
-        }
-        
+        }  
     }
 
     private void UpdatePosition()
@@ -69,16 +67,11 @@ public class InputsController : MonoBehaviour
         PlayerPosition += playerSpeed * Time.deltaTime;
     }
 
-    
 
     private void HorizMovementsInputs()
     {
-
         //Calcul des déplacements horizontaux en fonction des inputs joystick gauche
         float horizMvt = Input.GetAxis("Horizontal");
-
-        
-
 
         if(horizMvt >= 0.1f)
         {
@@ -91,14 +84,7 @@ public class InputsController : MonoBehaviour
         else
         {
             playerSpeed.x = 0;
-        }
-
-        
-        //Gere le saut simple
-        
-
-        //playerSpeed = speed * maxSpeed;
-        
+        }   
     }
 
     private void JumpInputs()
@@ -107,32 +93,85 @@ public class InputsController : MonoBehaviour
         {
             playerSpeed.y = jumpForce;
             jumpsCounter++;
+            isGrounded = false;
         }
 
 
         //playerSpeed = speed * maxSpeed;
     }
+    
+    //Retourne la norme d'un vector2
+    private float norme(Vector2 v) 
+    {
+        return Mathf.Sqrt(v.x * v.x + v.y * v.y);
+    }
+
+    /* test la collision d'une seule face définie par 2 points A et B avec les plateformes
+    les vecteurs a et b sont données dans le referentiel du personnage
+    si il y a eu une collision, renvoie vraie et replace le personnage */
+    private bool testOneFaceCollisions(Vector2 a, Vector2 b) 
+    {
+        Vector2 middle = (a + b) * 0.5f; 
+        
+        RaycastHit2D hitA = Physics2D.Raycast(
+            PlayerPosition + a, 
+            playerSpeed, 
+            norme(playerSpeed) * Time.deltaTime, 
+            layerNotTraversablePlatforms + layerTraversablePlatforms);
+
+        RaycastHit2D hitB = Physics2D.Raycast(
+            PlayerPosition + b, 
+            playerSpeed, 
+            norme(playerSpeed) * Time.deltaTime, 
+            layerNotTraversablePlatforms + layerTraversablePlatforms);
+
+        RaycastHit2D hitMiddle = Physics2D.Raycast(
+            PlayerPosition + middle, 
+            playerSpeed, 
+            norme(playerSpeed) * Time.deltaTime, 
+            layerNotTraversablePlatforms + layerTraversablePlatforms);
+
+        if (hitA || hitB || hitMiddle)
+        {
+            float distanceToHit = Mathf.Min(hitMiddle.distance, hitA.distance, hitB.distance);
+            playerPosition += playerSpeed.normalized * distanceToHit; 
+            return true;
+        }
+        
+        return false;
+    }
 
     private void RaycastCollision()
     {
-        //Raycast vers le bas pour detecter collisions plateformes
-        if(Physics2D.Raycast(PlayerPosition, Vector2.down, transform.lossyScale.y, layerNotTraversablePlatforms + layerTraversablePlatforms))
-        {
+        float width = 0.5f; //GetComponent<BoxCollider2D>().size.x;
+        float height = 0.5f;
+
+        //bottom
+        if (playerSpeed.y < 0 && testOneFaceCollisions(new Vector2(-width, -height), new Vector2(width, -height))) {
             isGrounded = true;
             jumpsCounter = 0;
-            playerSpeed.y = Mathf.Max(0, playerSpeed.y);
+            playerSpeed.y = 0;
         }
-        else
-        {
+        else {
             isGrounded = false;
-            PlayerGravity();
         }
         
+        //left
+        if (playerSpeed.x < 0 && testOneFaceCollisions(new Vector2(-width, -height), new Vector2(-width, height))) {
+            jumpsCounter = 0;
+            playerSpeed.x = 0;
+        }
+
+        //right
+        if (playerSpeed.x > 0 && testOneFaceCollisions(new Vector2(width, -height), new Vector2(width, height))) {
+            jumpsCounter = 0;
+            playerSpeed.x = 0;
+        }
+        
+        //top
         if(Physics2D.Raycast(PlayerPosition, Vector2.up, transform.lossyScale.y, layerNotTraversablePlatforms))
         {
-            playerSpeed.y = -gravityDown;
-            PlayerGravity();
-            
+            playerSpeed.y = -gravityDown;   
         }
 
     }

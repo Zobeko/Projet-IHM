@@ -301,12 +301,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerSpeed: {x: 0, y: 0}
-  gravityUp: 0.4
+  gravityUp: 0.2
   gravityDown: 0.3
-  maxSpeed: 10
+  maxSpeed: 7
   maxJumps: 2
   jumpForce: 15
-  raycastDistance: 0.1
+  raycastDistance: 0
   layerNotTraversablePlatforms:
     serializedVersion: 2
     m_Bits: 512
@@ -314,6 +314,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   playerPosition: {x: 0, y: 0}
+  isGrounded: 0
 --- !u!50 &860883657
 Rigidbody2D:
   serializedVersion: 4
@@ -392,7 +393,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.00000017881393, y: -0.0000009536743}
+  m_Offset: {x: -0.0034518838, y: -0.0000009536743}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -403,7 +404,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.9313325, y: 1.9689884}
+  m_Size: {x: 1.924429, y: 1.9689884}
   m_EdgeRadius: 0
 --- !u!212 &1035976361
 SpriteRenderer:
@@ -564,7 +565,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.08868116, y: 0}
+  m_Offset: {x: 0.002580732, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -575,7 +576,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2.1072536, y: 1.9783611}
+  m_Size: {x: 1.9247298, y: 1.9783611}
   m_EdgeRadius: 0
 --- !u!1 &1534693273
 GameObject:
@@ -608,7 +609,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.08841324, y: 0}
+  m_Offset: {x: 0.0013246536, y: 0.95167065}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -619,7 +620,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2.0946035, y: 1.9783611}
+  m_Size: {x: 1.9138105, y: 0.07501984}
   m_EdgeRadius: 0
 --- !u!212 &1534693275
 SpriteRenderer:
