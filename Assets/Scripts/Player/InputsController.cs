@@ -99,9 +99,9 @@ public class InputsController : MonoBehaviour
 
         //playerSpeed = speed * maxSpeed;
     }
-    
+
     //Retourne la norme d'un vector2
-    private float norme(Vector2 v) 
+    private float norme(Vector2 v)
     {
         return Mathf.Sqrt(v.x * v.x + v.y * v.y);
     }
@@ -109,35 +109,35 @@ public class InputsController : MonoBehaviour
     /* test la collision d'une seule face définie par 2 points A et B avec les plateformes
     les vecteurs a et b sont données dans le referentiel du personnage
     si il y a eu une collision, renvoie vraie et replace le personnage */
-    private bool testOneFaceCollisions(Vector2 a, Vector2 b) 
+    private bool testOneFaceCollisions(Vector2 a, Vector2 b)
     {
-        Vector2 middle = (a + b) * 0.5f; 
-        
+        Vector2 middle = (a + b) * 0.5f;
+
         RaycastHit2D hitA = Physics2D.Raycast(
-            PlayerPosition + a, 
-            playerSpeed, 
-            norme(playerSpeed) * Time.deltaTime, 
+            PlayerPosition + a,
+            playerSpeed,
+            norme(playerSpeed) * Time.deltaTime,
             layerNotTraversablePlatforms + layerTraversablePlatforms);
 
         RaycastHit2D hitB = Physics2D.Raycast(
-            PlayerPosition + b, 
-            playerSpeed, 
-            norme(playerSpeed) * Time.deltaTime, 
+            PlayerPosition + b,
+            playerSpeed,
+            norme(playerSpeed) * Time.deltaTime,
             layerNotTraversablePlatforms + layerTraversablePlatforms);
 
         RaycastHit2D hitMiddle = Physics2D.Raycast(
-            PlayerPosition + middle, 
-            playerSpeed, 
-            norme(playerSpeed) * Time.deltaTime, 
+            PlayerPosition + middle,
+            playerSpeed,
+            norme(playerSpeed) * Time.deltaTime,
             layerNotTraversablePlatforms + layerTraversablePlatforms);
 
         if (hitA || hitB || hitMiddle)
         {
             float distanceToHit = Mathf.Min(hitMiddle.distance, hitA.distance, hitB.distance);
-            playerPosition += playerSpeed.normalized * distanceToHit; 
+            playerPosition += playerSpeed.normalized * distanceToHit;
             return true;
         }
-        
+
         return false;
     }
 
@@ -147,33 +147,39 @@ public class InputsController : MonoBehaviour
         float height = 0.5f;
 
         //bottom
-        if (playerSpeed.y < 0 && testOneFaceCollisions(new Vector2(-width, -height), new Vector2(width, -height))) {
+        if (playerSpeed.y < 0 && testOneFaceCollisions(new Vector2(-width, -height), new Vector2(width, -height)))
+        {
             isGrounded = true;
             jumpsCounter = 0;
             playerSpeed.y = 0;
         }
-        else {
+        else
+        {
             isGrounded = false;
         }
-        
+
         //left
-        if (playerSpeed.x < 0 && testOneFaceCollisions(new Vector2(-width, -height), new Vector2(-width, height))) {
+        if (playerSpeed.x < 0 && testOneFaceCollisions(new Vector2(-width, -height), new Vector2(-width, height)))
+        {
             jumpsCounter = 0;
             playerSpeed.x = 0;
         }
 
         //right
-        if (playerSpeed.x > 0 && testOneFaceCollisions(new Vector2(width, -height), new Vector2(width, height))) {
+        if (playerSpeed.x > 0 && testOneFaceCollisions(new Vector2(width, -height), new Vector2(width, height)))
+        {
             jumpsCounter = 0;
             playerSpeed.x = 0;
         }
-        
+
         //top
-        if(Physics2D.Raycast(PlayerPosition, Vector2.up, transform.lossyScale.y, layerNotTraversablePlatforms))
+        if (Physics2D.Raycast(PlayerPosition, Vector2.up, transform.lossyScale.y, layerNotTraversablePlatforms))
         {
-            playerSpeed.y = -gravityDown;   
+            playerSpeed.y = -gravityDown;
         }
 
     }
+
+
 
 }
