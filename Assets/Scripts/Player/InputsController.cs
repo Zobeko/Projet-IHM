@@ -147,7 +147,7 @@ public class InputsController : MonoBehaviour
     /* test la collision d'une seule face définie par 2 points A et B avec les plateformes
     les vecteurs a et b sont données dans le referentiel du personnage
     si il y a eu une collision, renvoie vraie et replace le personnage et change sa vitesse */
-    private bool testOneFaceCollisions(Vector2 a, Vector2 b)
+    private bool testOneFaceCollisions(Vector2 a, Vector2 b, LayerMask layerMask)
     {
         Vector2 middle = (a + b) * 0.5f;
 
@@ -155,19 +155,19 @@ public class InputsController : MonoBehaviour
             PlayerPosition + a,
             playerSpeed,
             norme(playerSpeed) * Time.deltaTime,
-            layerNotTraversablePlatforms + layerTraversablePlatforms);
+            layerMask);
 
         RaycastHit2D hitB = Physics2D.Raycast(
             PlayerPosition + b,
             playerSpeed,
             norme(playerSpeed) * Time.deltaTime,
-            layerNotTraversablePlatforms + layerTraversablePlatforms);
+            layerMask);
 
         RaycastHit2D hitMiddle = Physics2D.Raycast(
             PlayerPosition + middle,
             playerSpeed,
             norme(playerSpeed) * Time.deltaTime,
-            layerNotTraversablePlatforms + layerTraversablePlatforms);
+            layerMask);
 
         if (hitA || hitB || hitMiddle)
         {
@@ -187,7 +187,7 @@ public class InputsController : MonoBehaviour
                 playerSpeed.y = 0;
             } 
             //collision avec le bas d'une plateforme
-            if(Mathf.Min(hitMiddle.normal.y, hitA.normal.y, hitB.normal.y) < -0.8 && playerSpeed.y > 0)
+            if(Mathf.Min(hitMiddle.normal.y, hitA.normal.y, hitB.normal.y) < -0.8 && playerSpeed.y > 0 && layerMask == layerNotTraversablePlatforms)
             {
                 playerSpeed.y = 0;
             } 
@@ -204,7 +204,7 @@ public class InputsController : MonoBehaviour
         float height = 0.5f;
 
         //bottom
-        if (playerSpeed.y < 0 && testOneFaceCollisions(new Vector2(-width, -height), new Vector2(width, -height)))
+        if (playerSpeed.y < 0 && testOneFaceCollisions(new Vector2(-width, -height), new Vector2(width, -height), layerNotTraversablePlatforms+layerTraversablePlatforms))
         {
             isGrounded = true;
             jumpsCounter = 0;
@@ -215,19 +215,19 @@ public class InputsController : MonoBehaviour
         }
 
         //left
-        if (playerSpeed.x < 0 && testOneFaceCollisions(new Vector2(-width, -height), new Vector2(-width, height)))
+        if (playerSpeed.x < 0 && testOneFaceCollisions(new Vector2(-width, -height), new Vector2(-width, height), layerNotTraversablePlatforms + layerTraversablePlatforms))
         {
             jumpsCounter = 0;
         }
 
         //right
-        if (playerSpeed.x > 0 && testOneFaceCollisions(new Vector2(width, -height), new Vector2(width, height)))
+        if (playerSpeed.x > 0 && testOneFaceCollisions(new Vector2(width, -height), new Vector2(width, height), layerNotTraversablePlatforms + layerTraversablePlatforms))
         {
             jumpsCounter = 0;
         }
 
         //top
-        if (playerSpeed.y > 0 && testOneFaceCollisions(new Vector2(width, height), new Vector2(-width, height)))
+        if (playerSpeed.y > 0 && testOneFaceCollisions(new Vector2(width, height), new Vector2(-width, height), layerNotTraversablePlatforms))
         {
             playerSpeed.y = -gravityDown;
         }
