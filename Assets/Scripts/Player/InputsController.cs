@@ -4,28 +4,36 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class InputsController : MonoBehaviour
 {
-    
-    [SerializeField] private Vector2 playerSpeed;
+    [Header("Gravity")]
     [SerializeField] private float gravityUp;
     [SerializeField] private float gravityDown;
-    [SerializeField] private float maxSpeed;
-    [SerializeField] private float dashForce;
-    [SerializeField] private int maxJumps = 2;
-    [SerializeField] private float jumpForce;
-    [SerializeField] private LayerMask layerNotTraversablePlatforms;
-    [SerializeField] private LayerMask layerTraversablePlatforms;
 
-    [SerializeField] private float sprintFactor;
-
+    [Header("Player attributes")]
     [SerializeField] private Vector2 playerPosition;
     public Vector2 PlayerPosition
     {
         get { return transform.position; }
         set { transform.position = value; }
     }
+    [SerializeField] private Vector2 playerSpeed;
+    [SerializeField] private float maxSpeed;
 
-    public bool isGrounded = false;
+    [Header("Jump")]
+    [SerializeField] private int maxJumps = 2;
+    [SerializeField] private float jumpForce;
 
+    [Header("Sprint")]
+    [SerializeField] private float sprintFactor;
+
+    [Header("Dash")]
+    [SerializeField] private float dashForce;
+
+    [Header("LayerMasks")]
+    [SerializeField] private LayerMask layerNotTraversablePlatforms;
+    [SerializeField] private LayerMask layerTraversablePlatforms;
+
+
+    private bool isGrounded = false;
     private int jumpsCounter = 0;
 
     void Start()
@@ -105,7 +113,6 @@ public class InputsController : MonoBehaviour
         }
 
 
-        //playerSpeed = speed * maxSpeed;
     }
 
     private void SprintInput()
@@ -188,6 +195,14 @@ public class InputsController : MonoBehaviour
     {
         float width = 0.5f; //GetComponent<BoxCollider2D>().size.x;
         float height = 0.5f;
+
+        //left
+        if (playerSpeed.x < 0 && testOneFaceCollisions(new Vector2(-width, -height), new Vector2(-width, height)))
+        {
+            jumpsCounter = 0;
+            playerSpeed.x = 0;
+            Debug.Log("Gauche");
+        }
 
         //bottom
         if (playerSpeed.y < 0 && testOneFaceCollisions(new Vector2(-width, -height), new Vector2(width, -height)))
