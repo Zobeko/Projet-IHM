@@ -214,9 +214,9 @@ GameObject:
   m_Component:
   - component: {fileID: 860883653}
   - component: {fileID: 860883652}
-  - component: {fileID: 860883656}
   - component: {fileID: 860883657}
   - component: {fileID: 860883658}
+  - component: {fileID: 860883656}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -300,22 +300,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f71d6f35cbe137d458a8dc13cef93645, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSpeed: {x: 0, y: 0}
   gravityUp: 0.2
   gravityDown: 0.3
+  playerPosition: {x: 0, y: 0}
+  playerSpeed: {x: 0, y: 0}
   maxSpeed: 7
-  dashForce: 80
   maxJumps: 2
   jumpForce: 10
+  sprintFactor: 1.5
+  dashForce: 80
   layerNotTraversablePlatforms:
     serializedVersion: 2
     m_Bits: 512
   layerTraversablePlatforms:
     serializedVersion: 2
     m_Bits: 256
-  sprintFactor: 1.5
-  playerPosition: {x: 0, y: 0}
-  isGrounded: 0
 --- !u!50 &860883657
 Rigidbody2D:
   serializedVersion: 4
