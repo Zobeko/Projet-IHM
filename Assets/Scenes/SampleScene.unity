@@ -300,21 +300,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f71d6f35cbe137d458a8dc13cef93645, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerSpeed: {x: 0, y: 0}
   gravityUp: 0.2
   gravityDown: 0.3
-  playerPosition: {x: 0, y: 0}
-  playerSpeed: {x: 0, y: 0}
   maxSpeed: 7
-  maxJumps: 2
-  jumpForce: 10
-  sprintFactor: 1.5
   dashForce: 80
+  maxJumps: 2
+  jumpForce: 12
   layerNotTraversablePlatforms:
     serializedVersion: 2
     m_Bits: 512
   layerTraversablePlatforms:
     serializedVersion: 2
     m_Bits: 256
+  sprintFactor: 1.5
+  playerPosition: {x: 0, y: 0}
 --- !u!50 &860883657
 Rigidbody2D:
   serializedVersion: 4
@@ -546,8 +546,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1187904751}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6, y: -2, z: 0}
-  m_LocalScale: {x: 3, y: 0.25, z: 1}
+  m_LocalPosition: {x: 6, y: -1.698, z: 0}
+  m_LocalScale: {x: 3, y: 0.48566973, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3

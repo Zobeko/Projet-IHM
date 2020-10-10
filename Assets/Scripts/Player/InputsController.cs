@@ -63,7 +63,6 @@ public class InputsController : MonoBehaviour
 
         //Update la position du joueur à chaque frame
         UpdatePosition();
-
     }
 
 
@@ -147,7 +146,7 @@ public class InputsController : MonoBehaviour
 
     /* test la collision d'une seule face définie par 2 points A et B avec les plateformes
     les vecteurs a et b sont données dans le referentiel du personnage
-    si il y a eu une collision, renvoie vraie et replace le personnage */
+    si il y a eu une collision, renvoie vraie et replace le personnage et change sa vitesse */
     private bool testOneFaceCollisions(Vector2 a, Vector2 b)
     {
         Vector2 middle = (a + b) * 0.5f;
@@ -172,6 +171,26 @@ public class InputsController : MonoBehaviour
 
         if (hitA || hitB || hitMiddle)
         {
+            //si collision avec le coté droit d'une plateforme
+            if(Mathf.Max(hitMiddle.normal.x, hitA.normal.x, hitB.normal.x) > 0.8 && playerSpeed.x < 0)
+            {
+                playerSpeed.x = 0;
+            }
+            //si collision avec le coté gauche d'une plateforme
+            if(Mathf.Min(hitMiddle.normal.x, hitA.normal.x, hitB.normal.x) < -0.8 && playerSpeed.x > 0)
+            {
+                playerSpeed.x = 0;
+            }
+            //collision avec le haut d'une plateforme
+            if(Mathf.Max(hitMiddle.normal.y, hitA.normal.y, hitB.normal.y) > 0.8 && playerSpeed.y < 0)
+            {
+                playerSpeed.y = 0;
+            } 
+            //collision avec le bas d'une plateforme
+            if(Mathf.Min(hitMiddle.normal.y, hitA.normal.y, hitB.normal.y) < -0.8 && playerSpeed.y > 0)
+            {
+                playerSpeed.y = 0;
+            } 
             float distanceToHit = Mathf.Min(hitMiddle.distance, hitA.distance, hitB.distance);
             playerPosition += playerSpeed.normalized * distanceToHit;
             return true;
@@ -179,50 +198,38 @@ public class InputsController : MonoBehaviour
 
         return false;
     }
-
     private void RaycastCollision()
     {
         float width = 0.5f; //GetComponent<BoxCollider2D>().size.x;
         float height = 0.5f;
-
-        //left
-        if (playerSpeed.x < 0 && testOneFaceCollisions(new Vector2(-width, -height), new Vector2(-width, height)))
-        {
-            jumpsCounter = 0;
-            playerSpeed.x = 0;
-            Debug.Log("Gauche");
-        }
 
         //bottom
         if (playerSpeed.y < 0 && testOneFaceCollisions(new Vector2(-width, -height), new Vector2(width, -height)))
         {
             isGrounded = true;
             jumpsCounter = 0;
-            playerSpeed.y = 0;
-            Debug.Log("Bas");
         }
         else
         {
             isGrounded = false;
         }
 
-        
+        //left
+        if (playerSpeed.x < 0 && testOneFaceCollisions(new Vector2(-width, -height), new Vector2(-width, height)))
+        {
+            jumpsCounter = 0;
+        }
 
         //right
         if (playerSpeed.x > 0 && testOneFaceCollisions(new Vector2(width, -height), new Vector2(width, height)))
         {
             jumpsCounter = 0;
-            playerSpeed.x = 0;
         }
 
         //top
-        if (Physics2D.Raycast(PlayerPosition, Vector2.up, transform.lossyScale.y, layerNotTraversablePlatforms))
+        if (playerSpeed.y > 0 && testOneFaceCollisions(new Vector2(width, height), new Vector2(-width, height)))
         {
             playerSpeed.y = -gravityDown;
         }
-
     }
-
-
-
 }
