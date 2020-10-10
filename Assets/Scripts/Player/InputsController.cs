@@ -55,8 +55,6 @@ public class InputsController : MonoBehaviour
 
         //Update la position du joueur à chaque frame
         UpdatePosition();
-
-        Debug.Log(PlayerPosition);
     }
 
 
@@ -141,7 +139,7 @@ public class InputsController : MonoBehaviour
 
     /* test la collision d'une seule face définie par 2 points A et B avec les plateformes
     les vecteurs a et b sont données dans le referentiel du personnage
-    si il y a eu une collision, renvoie vraie et replace le personnage */
+    si il y a eu une collision, renvoie vraie et replace le personnage et change sa vitesse */
     private bool testOneFaceCollisions(Vector2 a, Vector2 b)
     {
         Vector2 middle = (a + b) * 0.5f;
@@ -166,6 +164,18 @@ public class InputsController : MonoBehaviour
 
         if (hitA || hitB || hitMiddle)
         {
+            //si collision avec le coté d'une plateforme
+             if(Mathf.Max(Mathf.Abs(hitMiddle.normal.x), Mathf.Abs(hitA.normal.x), Mathf.Abs(hitB.normal.x)) > 0.8)
+            {
+                playerSpeed.x = 0;
+                Debug.Log("collision coté");
+            }
+            if(Mathf.Max(Mathf.Abs(hitMiddle.normal.y), Mathf.Abs(hitA.normal.y), Mathf.Abs(hitB.normal.y)) > 0.8)
+            {
+                playerSpeed.y = 0;
+              //  Debug.Log("collision bas");
+                
+            } 
             float distanceToHit = Mathf.Min(hitMiddle.distance, hitA.distance, hitB.distance);
             playerPosition += playerSpeed.normalized * distanceToHit;
             return true;
@@ -184,7 +194,6 @@ public class InputsController : MonoBehaviour
         {
             isGrounded = true;
             jumpsCounter = 0;
-            playerSpeed.y = 0;
         }
         else
         {
@@ -195,21 +204,19 @@ public class InputsController : MonoBehaviour
         if (playerSpeed.x < 0 && testOneFaceCollisions(new Vector2(-width, -height), new Vector2(-width, height)))
         {
             jumpsCounter = 0;
-            playerSpeed.x = 0;
         }
 
         //right
         if (playerSpeed.x > 0 && testOneFaceCollisions(new Vector2(width, -height), new Vector2(width, height)))
         {
             jumpsCounter = 0;
-            playerSpeed.x = 0;
         }
 
         //top
-        if (Physics2D.Raycast(PlayerPosition, Vector2.up, transform.lossyScale.y, layerNotTraversablePlatforms))
+/*        if (Physics2D.Raycast(PlayerPosition, Vector2.up, transform.lossyScale.y, layerNotTraversablePlatforms))
         {
             playerSpeed.y = -gravityDown;
-        }
+        }*/
 
     }
 
