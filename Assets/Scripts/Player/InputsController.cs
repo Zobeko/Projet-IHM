@@ -9,6 +9,7 @@ public class InputsController : MonoBehaviour
     [SerializeField] private float gravityUp;
     [SerializeField] private float gravityDown;
     [SerializeField] private float maxSpeed;
+    [SerializeField] private float dashForce;
     [SerializeField] private int maxJumps = 2;
     [SerializeField] private float jumpForce;
     [SerializeField] private LayerMask layerNotTraversablePlatforms;
@@ -38,6 +39,9 @@ public class InputsController : MonoBehaviour
 
         //Gere le saut et double saut
         JumpInputs();
+
+        //Gere le dash
+        DashInput();
 
         //Gere la gravité
         PlayerGravity();
@@ -98,6 +102,21 @@ public class InputsController : MonoBehaviour
 
 
         //playerSpeed = speed * maxSpeed;
+    }
+
+    private void DashInput()
+    {
+        if (Input.GetButtonDown("Dash"))
+        {
+            if (playerSpeed.x >= 0)
+            {
+                playerSpeed.x += dashForce;
+            }
+            else
+            {
+                playerSpeed.x += -dashForce;
+            }
+        }
     }
 
     //Retourne la norme d'un vector2

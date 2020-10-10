@@ -304,8 +304,9 @@ MonoBehaviour:
   gravityUp: 0.2
   gravityDown: 0.3
   maxSpeed: 7
+  dashForce: 80
   maxJumps: 3
-  jumpForce: 15
+  jumpForce: 10
   layerNotTraversablePlatforms:
     serializedVersion: 2
     m_Bits: 512
@@ -330,7 +331,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 0
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: e7205969971b54a4585597490239a969, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
