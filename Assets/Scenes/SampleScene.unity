@@ -305,7 +305,7 @@ MonoBehaviour:
   gravityDown: 0.3
   maxSpeed: 7
   dashForce: 80
-  maxJumps: 3
+  maxJumps: 2
   jumpForce: 10
   layerNotTraversablePlatforms:
     serializedVersion: 2
@@ -313,6 +313,7 @@ MonoBehaviour:
   layerTraversablePlatforms:
     serializedVersion: 2
     m_Bits: 256
+  sprintFactor: 1.5
   playerPosition: {x: 0, y: 0}
   isGrounded: 0
 --- !u!50 &860883657

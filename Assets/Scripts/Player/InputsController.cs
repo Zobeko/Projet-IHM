@@ -14,9 +14,10 @@ public class InputsController : MonoBehaviour
     [SerializeField] private float jumpForce;
     [SerializeField] private LayerMask layerNotTraversablePlatforms;
     [SerializeField] private LayerMask layerTraversablePlatforms;
-    [SerializeField] private Vector2 playerPosition;
 
-    
+    [SerializeField] private float sprintFactor;
+
+    [SerializeField] private Vector2 playerPosition;
     public Vector2 PlayerPosition
     {
         get { return transform.position; }
@@ -40,6 +41,9 @@ public class InputsController : MonoBehaviour
         //Gere le saut et double saut
         JumpInputs();
 
+        //Gere le sprint
+        SprintInput();
+
         //Gere le dash
         DashInput();
 
@@ -51,6 +55,8 @@ public class InputsController : MonoBehaviour
 
         //Update la position du joueur à chaque frame
         UpdatePosition();
+
+        Debug.Log(PlayerPosition);
     }
 
 
@@ -102,6 +108,14 @@ public class InputsController : MonoBehaviour
 
 
         //playerSpeed = speed * maxSpeed;
+    }
+
+    private void SprintInput()
+    {
+        if (Input.GetButton("Sprint"))
+        {
+            playerSpeed.x *= sprintFactor;
+        }
     }
 
     private void DashInput()
