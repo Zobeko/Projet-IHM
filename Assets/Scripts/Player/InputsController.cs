@@ -200,7 +200,6 @@ public class InputsController : MonoBehaviour
         if (playerSpeed.x < 0 && testOneFaceCollisions(new Vector2(-width, -height), new Vector2(-width, height)))
         {
             jumpsCounter = 0;
-            playerSpeed.x = 0;
             Debug.Log("Gauche");
         }
 
