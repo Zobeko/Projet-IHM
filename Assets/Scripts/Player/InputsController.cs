@@ -1,5 +1,6 @@
 ﻿using UnityEditor;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [RequireComponent(typeof(Rigidbody))]
 public class InputsController : MonoBehaviour
@@ -21,6 +22,10 @@ public class InputsController : MonoBehaviour
     [Header("Jump")]
     [SerializeField] private int maxJumps = 2;
     [SerializeField] private float jumpForce;
+    [SerializeField] private bool isWallJumping = false;
+    [SerializeField] private float wallJumpDelay = 0;
+    [SerializeField] private float wallJumpForceX = 0;
+    [SerializeField] private float wallJumpForceY = 0;
 
     [Header("Sprint")]
     [SerializeField] private float sprintFactor;
@@ -35,16 +40,26 @@ public class InputsController : MonoBehaviour
 
     private bool isGrounded = false;
     private int jumpsCounter = 0;
+    private float width=0;
+    private float height=0;
 
+    void Awake()
+    {
+        width = this.transform.lossyScale.x;
+        height = this.transform.lossyScale.y;
+    }
     void Start()
     {
         playerSpeed = Vector2.zero;
     }
 
     void Update()
-    {  
+    {
         //Gere les déplacements horizontaux du joueur
-        HorizMovementsInputs();
+        if (!isWallJumping)
+        {
+            HorizMovementsInputs();
+        }
 
         //Gere le saut et double saut
         JumpInputs();
@@ -137,6 +152,25 @@ public class InputsController : MonoBehaviour
             }
         }
     }
+    
+    //La variable _dir vaut 1 si le mur est à la droite du joueur et -1 si il est à gauche (permet de calculer la bonne force à metre en X en fonction de la direction du mur)
+    private void WallJumpInput(int _dir)
+    {
+        if (!isGrounded && Input.GetButtonDown("Jump"))
+        {
+            //On remet le jumpsCounter à 1 pour que, après un wall jump, le joueur puisse ressauter une fois de plus (meme s'il a deja fais double saut)
+            jumpsCounter = 1;
+            isWallJumping = true;
+            //Utilisation de Incoke afin de mettre isWalllJumping à false "wallJumpDelay" secondes après le wall jump (utile pour bloquer inputs mvt horizontals)
+            Invoke("setIsWallJumpingToFalse", wallJumpDelay);
+            playerSpeed = new Vector2(-_dir*wallJumpForceX, wallJumpForceY);
+        }
+    }
+
+    private void setIsWallJumpingToFalse()
+    {
+        isWallJumping = false;
+    }
 
     //Retourne la norme d'un vector2
     private float norme(Vector2 v)
@@ -200,10 +234,8 @@ public class InputsController : MonoBehaviour
     }
     private void RaycastCollision()
     {
-        float width = 0.5f; //GetComponent<BoxCollider2D>().size.x;
-        float height = 0.5f;
 
-        //bottom
+        //Collision avec le haut d'un plateforme
         if (playerSpeed.y < 0 && testOneFaceCollisions(new Vector2(-width, -height), new Vector2(width, -height), layerNotTraversablePlatforms+layerTraversablePlatforms))
         {
             isGrounded = true;
@@ -217,19 +249,26 @@ public class InputsController : MonoBehaviour
         //left
         if (playerSpeed.x < 0 && testOneFaceCollisions(new Vector2(-width, -height), new Vector2(-width, height), layerNotTraversablePlatforms + layerTraversablePlatforms))
         {
-            jumpsCounter = 0;
+            
+            int dir = -1; //Mur à gauche du joueur donc dir = -1
+            WallJumpInput(dir);
         }
 
         //right
         if (playerSpeed.x > 0 && testOneFaceCollisions(new Vector2(width, -height), new Vector2(width, height), layerNotTraversablePlatforms + layerTraversablePlatforms))
         {
-            jumpsCounter = 0;
+            
+            
+            int dir = 1; //Mur à droite du joueur donc dir = 1
+            WallJumpInput(dir);
         }
 
-        //top
+        //Collision avec le bas d'une plateforme
         if (playerSpeed.y > 0 && testOneFaceCollisions(new Vector2(width, height), new Vector2(-width, height), layerNotTraversablePlatforms))
         {
             playerSpeed.y = -gravityDown;
         }
     }
+
+
 }
