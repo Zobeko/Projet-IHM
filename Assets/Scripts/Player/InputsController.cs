@@ -151,48 +151,36 @@ public class InputsController : MonoBehaviour
     {
         Vector2 middle = (a + b) * 0.5f;
 
-        RaycastHit2D hitA = Physics2D.Raycast(
-            PlayerPosition + a,
-            playerSpeed,
-            norme(playerSpeed) * Time.deltaTime,
-            layerMask);
+        //vecteur normale à la face du joueur testée
+        Vector2 playersNormal = middle.normalized;
+        float normalSpeed = Vector2.Dot(playerSpeed, playersNormal);
 
-        RaycastHit2D hitB = Physics2D.Raycast(
-            PlayerPosition + b,
-            playerSpeed,
-            norme(playerSpeed) * Time.deltaTime,
-            layerMask);
+        int n = 5;
+        RaycastHit2D[] hits = new RaycastHit2D[n];
+        Vector2 rayOrigin;
+        float minimalDistanceToHit = -1;
 
-        RaycastHit2D hitMiddle = Physics2D.Raycast(
-            PlayerPosition + middle,
-            playerSpeed,
-            norme(playerSpeed) * Time.deltaTime,
-            layerMask);
-
-        if (hitA || hitB || hitMiddle)
+        for (int k = 0;k < n;k++)
         {
-            //si collision avec le coté droit d'une plateforme
-            if(Mathf.Max(hitMiddle.normal.x, hitA.normal.x, hitB.normal.x) > 0.8 && playerSpeed.x < 0)
-            {
-                playerSpeed.x = 0;
+            rayOrigin = ((float) k) * (b - a) / ((float) n - 1) + a;
+
+            hits[k] = Physics2D.Raycast(
+            PlayerPosition + rayOrigin,
+            playersNormal,
+            normalSpeed * Time.deltaTime,
+            layerMask);
+        }
+   
+        foreach(RaycastHit2D hit in hits) 
+        {
+            if (hit && Vector2.Dot(hit.normal, playersNormal) < -0.5 
+            && (minimalDistanceToHit > hit.distance || minimalDistanceToHit == -1)) {
+                minimalDistanceToHit = hit.distance;
             }
-            //si collision avec le coté gauche d'une plateforme
-            if(Mathf.Min(hitMiddle.normal.x, hitA.normal.x, hitB.normal.x) < -0.8 && playerSpeed.x > 0)
-            {
-                playerSpeed.x = 0;
-            }
-            //collision avec le haut d'une plateforme
-            if(Mathf.Max(hitMiddle.normal.y, hitA.normal.y, hitB.normal.y) > 0.8 && playerSpeed.y < 0)
-            {
-                playerSpeed.y = 0;
-            } 
-            //collision avec le bas d'une plateforme
-            if(Mathf.Min(hitMiddle.normal.y, hitA.normal.y, hitB.normal.y) < -0.8 && playerSpeed.y > 0 && layerMask == layerNotTraversablePlatforms)
-            {
-                playerSpeed.y = 0;
-            } 
-            float distanceToHit = Mathf.Min(hitMiddle.distance, hitA.distance, hitB.distance);
-            playerPosition += playerSpeed.normalized * distanceToHit;
+        }
+
+        if (minimalDistanceToHit > 0) {
+            playerPosition += playerSpeed.normalized * minimalDistanceToHit;
             return true;
         }
 
@@ -208,6 +196,7 @@ public class InputsController : MonoBehaviour
         {
             isGrounded = true;
             jumpsCounter = 0;
+            playerSpeed.y = 0;
         }
         else
         {
@@ -217,13 +206,15 @@ public class InputsController : MonoBehaviour
         //left
         if (playerSpeed.x < 0 && testOneFaceCollisions(new Vector2(-width, -height), new Vector2(-width, height), layerNotTraversablePlatforms + layerTraversablePlatforms))
         {
-            jumpsCounter = 0;
+            playerSpeed.x = 0;
+
         }
 
         //right
         if (playerSpeed.x > 0 && testOneFaceCollisions(new Vector2(width, -height), new Vector2(width, height), layerNotTraversablePlatforms + layerTraversablePlatforms))
         {
-            jumpsCounter = 0;
+            playerSpeed.x = 0;
+
         }
 
         //top
