@@ -201,7 +201,7 @@ public class InputsController : MonoBehaviour
             hits[k] = Physics2D.Raycast(
             PlayerPosition + rayOrigin,
             playersNormal,
-            normalSpeed * Time.deltaTime,
+            Mathf.Abs(normalSpeed) * Time.deltaTime,
             layerMask);
         }
    
