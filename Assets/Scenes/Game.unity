@@ -361,7 +361,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 860883651}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -11.76, y: -4.65, z: 0}
+  m_LocalPosition: {x: 6.19, y: -4.65, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children: []
   m_Father: {fileID: 0}
@@ -384,21 +384,22 @@ MonoBehaviour:
   playerPosition: {x: 0, y: 0}
   playerSpeed: {x: 0, y: 0}
   maxSpeed: 7
-  maxJumps: 2
+  jumpTolerance: 1.2
+  maxJumps: 1
   jumpsCounter: 0
   jumpForce: 15
-  isWallJumping: 0
   wallJumpDelay: 0.4
   wallJumpForceX: 12
   wallJumpForceY: 7
   sprintFactor: 1.5
-  dashForce: 80
+  dashForce: 100
   layerNotTraversablePlatforms:
     serializedVersion: 2
     m_Bits: 512
   layerTraversablePlatforms:
     serializedVersion: 2
     m_Bits: 256
+  isGrounded: 0
 --- !u!50 &860883657
 Rigidbody2D:
   serializedVersion: 4
@@ -432,7 +433,7 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
-  m_UsedByComposite: 0
+  m_UsedByComposite: 1
   m_Offset: {x: 0.0047461987, y: 0.005295515}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
