@@ -213,7 +213,7 @@ public class InputsController : MonoBehaviour
             Mathf.Abs(normalSpeed) * Time.deltaTime,
             layerMask);
 
-            Debug.DrawRay(playerPosition + rayOrigin, playersNormal * Mathf.Abs(normalSpeed) * Time.deltaTime, Color.blue);
+            Debug.DrawRay(PlayerPosition + rayOrigin, playersNormal * Mathf.Abs(normalSpeed) * Time.deltaTime, Color.blue);
         }
    
         foreach(RaycastHit2D hit in hits) 
