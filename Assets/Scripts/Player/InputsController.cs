@@ -59,11 +59,10 @@ public class InputsController : MonoBehaviour
 
     void FixedUpdate() {
 
-        
-
         //Gere la gravité
         PlayerGravity();
 
+     
         //Gere les collisions avec les plateformes
         RaycastCollision();
 
@@ -73,7 +72,6 @@ public class InputsController : MonoBehaviour
 
     void Update()
     {
-
         //Gere les déplacements horizontaux du joueur
         if (!isWallJumping)
         {
@@ -219,6 +217,8 @@ public class InputsController : MonoBehaviour
         //vecteur normale à la face du joueur testée
         Vector2 playersNormal = middle.normalized;
         float normalSpeed = Vector2.Dot(playerSpeed, playersNormal);
+        if (normalSpeed <= 0)
+            return false;
 
         int n = 5;
         RaycastHit2D[] hits = new RaycastHit2D[n];
@@ -232,10 +232,10 @@ public class InputsController : MonoBehaviour
             hits[k] = Physics2D.Raycast(
             PlayerPosition + rayOrigin,
             playersNormal,
-            Mathf.Abs(normalSpeed) * Time.deltaTime,
+            normalSpeed * Time.deltaTime,
             layerMask);
 
-            Debug.DrawRay(PlayerPosition + rayOrigin, playersNormal * Mathf.Abs(normalSpeed) * Time.deltaTime, Color.blue);
+            Debug.DrawRay(PlayerPosition + rayOrigin, 20* playersNormal * normalSpeed * Time.deltaTime, Color.blue);
         }
    
         foreach(RaycastHit2D hit in hits) 
@@ -247,7 +247,9 @@ public class InputsController : MonoBehaviour
         }
 
         if (minimalDistanceToHit > 0) {
-            playerPosition += playerSpeed.normalized * minimalDistanceToHit;
+            playerSpeed -= normalSpeed * playersNormal;
+            playerSpeed += minimalDistanceToHit * playersNormal;
+            //playerPosition += playerSpeed.normalized * minimalDistanceToHit;
             return true;
         }
 
@@ -267,7 +269,7 @@ public class InputsController : MonoBehaviour
         //left
         if (playerSpeed.x < 0 && TestOneFaceCollisions(new Vector2(-width, -height), new Vector2(-width, height), layerNotTraversablePlatforms + layerTraversablePlatforms))
         {
-            playerSpeed.x = 0; 
+            //playerSpeed.x = 0; 
             int dir = -1; //Mur à gauche du joueur donc dir = -1
             WallJumpInput(dir);
         }
@@ -275,7 +277,7 @@ public class InputsController : MonoBehaviour
         //right
         if (playerSpeed.x > 0 && TestOneFaceCollisions(new Vector2(width, -height), new Vector2(width, height), layerNotTraversablePlatforms + layerTraversablePlatforms))
         {
-            playerSpeed.x = 0;       
+            //playerSpeed.x = 0;       
             int dir = 1; //Mur à droite du joueur donc dir = 1
             WallJumpInput(dir);
         }
@@ -283,7 +285,7 @@ public class InputsController : MonoBehaviour
         //Collision avec le bas d'une plateforme
         if (playerSpeed.y > 0 && TestOneFaceCollisions(new Vector2(width, height), new Vector2(-width, height), layerNotTraversablePlatforms))
         {
-            playerSpeed.y = -gravityDown;
+           // playerSpeed.y = -gravityDown;
         }
 
         //Raycast vers le bas pour savoir si on est sur une plateforme pour que la vitesse du joueur se synchronise avec celle de la plateforme
