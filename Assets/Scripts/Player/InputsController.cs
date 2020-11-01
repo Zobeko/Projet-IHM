@@ -19,10 +19,13 @@ public class InputsController : MonoBehaviour
     public Vector2 playerSpeed;
     [SerializeField] private float maxSpeed;
 
+    
+
     [Header("Jump")]
+    [SerializeField] private float jumpTolerance = 0f;
     [SerializeField] private int maxJumps = 2;
+    public int jumpsCounter = 0;
     [SerializeField] private float jumpForce;
-    [SerializeField] private bool isWallJumping = false;
     [SerializeField] private float wallJumpDelay = 0;
     [SerializeField] private float wallJumpForceX = 0;
     [SerializeField] private float wallJumpForceY = 0;
@@ -38,8 +41,8 @@ public class InputsController : MonoBehaviour
     [SerializeField] private LayerMask layerTraversablePlatforms;
 
 
-    private bool isGrounded = false;
-    public int jumpsCounter = 0;
+    [SerializeField]private bool isGrounded = false;
+    private bool isWallJumping = false;
     private float width=0;
     private float height=0;
 
@@ -68,7 +71,6 @@ public class InputsController : MonoBehaviour
 
     void Update()
     {
-        
         //Gere les déplacements horizontaux du joueur
         if (!isWallJumping)
         {
@@ -83,7 +85,9 @@ public class InputsController : MonoBehaviour
 
         //Gere le dash
         DashInput();
-        
+
+
+
     }
 
 
@@ -132,8 +136,6 @@ public class InputsController : MonoBehaviour
             jumpsCounter++;
             isGrounded = false;
         }
-
-
     }
 
     private void SprintInput()
@@ -182,6 +184,26 @@ public class InputsController : MonoBehaviour
     private float norme(Vector2 v)
     {
         return Mathf.Sqrt(v.x * v.x + v.y * v.y);
+    }
+
+    //Test si le joueur est au sol ou pas (avec tolerance adaptable)
+    private void IsGrounded()
+    {
+        for (int i = 0; i < 2; i++)
+        {
+            Debug.DrawRay(PlayerPosition, Vector2.down * (height + jumpTolerance), Color.yellow);
+
+            if(Physics2D.Raycast(PlayerPosition, Vector2.down, (height + jumpTolerance), layerTraversablePlatforms + layerNotTraversablePlatforms))
+            {
+                Debug.Log("hit");
+                jumpsCounter = 0;
+                isGrounded = true;
+            }
+            else
+            {
+                isGrounded = false;
+            }
+        }
     }
 
     /* test la collision d'une seule face définie par 2 points A et B avec les plateformes
@@ -234,18 +256,14 @@ public class InputsController : MonoBehaviour
     }
     private void RaycastCollision()
     {
+        IsGrounded();
 
         //Collision avec le haut d'un plateforme
         if (playerSpeed.y < 0 && TestOneFaceCollisions(new Vector2(-width, -height), new Vector2(width, -height), layerNotTraversablePlatforms+layerTraversablePlatforms))
         {
-            isGrounded = true;
-            jumpsCounter = 0;
             playerSpeed.y = 0;
         }
-        else
-        {
-            isGrounded = false;
-        }
+        
 
         //left
         if (playerSpeed.x < 0 && TestOneFaceCollisions(new Vector2(-width, -height), new Vector2(-width, height), layerNotTraversablePlatforms + layerTraversablePlatforms))
@@ -268,6 +286,17 @@ public class InputsController : MonoBehaviour
         {
            // playerSpeed.y = -gravityDown;
         }
+
+        //Raycast vers le bas pour savoir si on est sur une plateforme pour que la vitesse du joueur se synchronise avec celle de la plateforme
+        RaycastHit2D hitPlatform = Physics2D.Raycast(PlayerPosition, Vector2.down, height + 0.1f, layerNotTraversablePlatforms+layerTraversablePlatforms);
+        Debug.DrawRay(PlayerPosition, Vector2.down * (height + 0.1f), Color.green);
+        
+        if (hitPlatform && hitPlatform.transform.gameObject.CompareTag("MovingPlatform"))
+        {
+            playerSpeed += new Vector2(hitPlatform.transform.gameObject.GetComponent<PlatformMovements>().speed, 0);
+        }
+
+
     }
 
 

@@ -3,7 +3,7 @@ using UnityEngine.UIElements;
 
 public class PlatformMovements : MonoBehaviour
 {
-    [SerializeField] private float speed = 0f;
+    public float speed = 0f;
     [SerializeField] private float amplitude = 0f;
     private Vector2 initialPosition = Vector2.zero;
     public Vector2 Position
