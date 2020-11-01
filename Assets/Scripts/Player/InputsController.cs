@@ -6,8 +6,8 @@ using UnityEngine.Serialization;
 public class InputsController : MonoBehaviour
 {
     [Header("Gravity")]
-    [SerializeField] private float gravityUp;
-    [SerializeField] private float gravityDown;
+    public float gravityUp;
+    public float gravityDown;
 
     [Header("Player attributes")]
     [SerializeField] private Vector2 playerPosition;
@@ -17,37 +17,38 @@ public class InputsController : MonoBehaviour
         set { transform.position = value; }
     }
     public Vector2 playerSpeed;
-    [SerializeField] private float maxSpeed;
+    public float maxSpeed;
 
     
 
     [Header("Jump")]
-    [SerializeField] private float jumpTolerance = 0f;
+    public float jumpTolerance = 0f;
     [SerializeField] private int maxJumps = 2;
     public int jumpsCounter = 0;
-    [SerializeField] private float jumpForce;
+    public float jumpForce;
     [SerializeField] private float wallJumpDelay = 0;
     [SerializeField] private float wallJumpForceX = 0;
     [SerializeField] private float wallJumpForceY = 0;
 
     [Header("Sprint")]
-    [SerializeField] private float sprintFactor;
+    public float sprintFactor;
 
     [Header("Dash")]
-    [SerializeField] private float dashForce;
+    public float dashForce;
 
     [Header("LayerMasks")]
     [SerializeField] private LayerMask layerNotTraversablePlatforms;
     [SerializeField] private LayerMask layerTraversablePlatforms;
 
 
-    [SerializeField]private bool isGrounded = false;
+    private bool isGrounded = false;
     private bool isWallJumping = false;
     private float width=0;
     private float height=0;
 
     void Awake()
     {
+
         width = this.gameObject.GetComponent<BoxCollider2D>().bounds.size.x/2;
         height = this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y/2;
     }

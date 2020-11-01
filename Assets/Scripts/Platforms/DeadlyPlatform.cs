@@ -5,7 +5,7 @@ public class DeadlyPlatform : MonoBehaviour
 {
 
     [SerializeField] private int numberOfRaycasts = 0;
-    [SerializeField] private float raycastsDistanceOffset = 0f;
+    public float tolerance = 0f;
     [SerializeField] private LayerMask playerLayerMask;
 
     private float width = 0f;
@@ -35,14 +35,11 @@ public class DeadlyPlatform : MonoBehaviour
             Vector2 raycastOriginWidth = new Vector2((this.transform.position.x - (width / 2) + i * (width / (numberOfRaycasts - 1))), this.transform.position.y);
             Vector2 raycastOriginHeight = new Vector2(this.transform.position.x, this.transform.position.y - (height / 2) + i * (height / (numberOfRaycasts - 1)));
 
-            if (Physics2D.Raycast(raycastOriginWidth, Vector2.up, (height / 2) + raycastsDistanceOffset, playerLayerMask) || Physics2D.Raycast(raycastOriginWidth, Vector2.down, (height / 2) + raycastsDistanceOffset, playerLayerMask) || Physics2D.Raycast(raycastOriginHeight, Vector2.right, (width / 2) + raycastsDistanceOffset, playerLayerMask) || Physics2D.Raycast(raycastOriginHeight, Vector2.left, (width / 2) + raycastsDistanceOffset, playerLayerMask))
+            if (Physics2D.Raycast(raycastOriginWidth, Vector2.up, (height / 2) + tolerance, playerLayerMask) || Physics2D.Raycast(raycastOriginWidth, Vector2.down, (height / 2) + tolerance, playerLayerMask) || Physics2D.Raycast(raycastOriginHeight, Vector2.right, (width / 2) + tolerance, playerLayerMask) || Physics2D.Raycast(raycastOriginHeight, Vector2.left, (width / 2) + tolerance, playerLayerMask))
             {
                 SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             }
-            Debug.DrawRay(raycastOriginWidth, Vector2.up * ((height / 2) + raycastsDistanceOffset), Color.green);
-            Debug.DrawRay(raycastOriginWidth, Vector2.down * ((height / 2) + raycastsDistanceOffset), Color.green);
-            Debug.DrawRay(raycastOriginHeight, Vector2.left * ((width / 2) + raycastsDistanceOffset), Color.green);
-            Debug.DrawRay(raycastOriginHeight, Vector2.right * ((width / 2) + raycastsDistanceOffset), Color.green);
+
 
 
         }

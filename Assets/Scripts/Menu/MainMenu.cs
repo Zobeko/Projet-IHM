@@ -9,8 +9,7 @@ public class MainMenu : MonoBehaviour
 
     public void play() 
     {
-        //load next scene
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        this.gameObject.SetActive(false);
     }
 
     public void options()
