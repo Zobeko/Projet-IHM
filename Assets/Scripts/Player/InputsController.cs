@@ -16,7 +16,7 @@ public class InputsController : MonoBehaviour
         get { return transform.position; }
         set { transform.position = value; }
     }
-    [SerializeField] private Vector2 playerSpeed;
+    public Vector2 playerSpeed;
     [SerializeField] private float maxSpeed;
 
     [Header("Jump")]
@@ -39,14 +39,14 @@ public class InputsController : MonoBehaviour
 
 
     private bool isGrounded = false;
-    private int jumpsCounter = 0;
+    public int jumpsCounter = 0;
     private float width=0;
     private float height=0;
 
     void Awake()
     {
-        width = this.transform.lossyScale.x;
-        height = this.transform.lossyScale.y;
+        width = this.gameObject.GetComponent<BoxCollider2D>().bounds.size.x/2;
+        height = this.gameObject.GetComponent<BoxCollider2D>().bounds.size.y/2;
     }
     void Start()
     {
@@ -202,6 +202,10 @@ public class InputsController : MonoBehaviour
             playerSpeed,
             norme(playerSpeed) * Time.deltaTime,
             layerMask);
+
+        Debug.DrawRay(PlayerPosition + a, playerSpeed, Color.blue);
+        Debug.DrawRay(PlayerPosition + b, playerSpeed, Color.blue);
+        Debug.DrawRay(PlayerPosition + middle, playerSpeed, Color.blue);
 
         if (hitA || hitB || hitMiddle)
         {
