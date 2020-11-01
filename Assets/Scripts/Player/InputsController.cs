@@ -53,8 +53,8 @@ public class InputsController : MonoBehaviour
         playerSpeed = Vector2.zero;
     }
 
-    void Update()
-    {
+    void FixedUpdate() {
+
         //Gere les déplacements horizontaux du joueur
         if (!isWallJumping)
         {
@@ -78,6 +78,15 @@ public class InputsController : MonoBehaviour
 
         //Update la position du joueur à chaque frame
         UpdatePosition();
+    }
+
+    void Update()
+    {
+        
+
+        
+
+        
     }
 
 

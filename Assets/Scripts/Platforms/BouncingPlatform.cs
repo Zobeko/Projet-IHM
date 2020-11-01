@@ -43,7 +43,7 @@ public class BouncingPlatform : MonoBehaviour
                 playerInputController.playerSpeed.y = bouncingForce;
                 playerInputController.jumpsCounter = 1; //Pour pouvoir faire un saut apres le saut dû à la plateforme
             }
-            //Debug.DrawRay(raycastOrigin, Vector2.up, Color.red, Mathf.Infinity);
+            Debug.DrawRay(raycastOrigin, Vector2.up * ((height / 2) + raycastsDistanceOffset), Color.red, Mathf.Infinity);
 
           
         }

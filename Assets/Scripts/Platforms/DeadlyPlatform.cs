@@ -39,10 +39,10 @@ public class DeadlyPlatform : MonoBehaviour
             {
                 SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             }
-            Debug.DrawRay(raycastOriginWidth, Vector2.up, Color.green);
-            Debug.DrawRay(raycastOriginWidth, Vector2.down, Color.green);
-            Debug.DrawRay(raycastOriginHeight, Vector2.left, Color.green);
-            Debug.DrawRay(raycastOriginHeight, Vector2.right, Color.green);
+            Debug.DrawRay(raycastOriginWidth, Vector2.up * ((height / 2) + raycastsDistanceOffset), Color.green);
+            Debug.DrawRay(raycastOriginWidth, Vector2.down * ((height / 2) + raycastsDistanceOffset), Color.green);
+            Debug.DrawRay(raycastOriginHeight, Vector2.left * ((width / 2) + raycastsDistanceOffset), Color.green);
+            Debug.DrawRay(raycastOriginHeight, Vector2.right * ((width / 2) + raycastsDistanceOffset), Color.green);
 
 
         }
