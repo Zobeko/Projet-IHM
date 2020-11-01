@@ -21,6 +21,7 @@ public class InputsController : MonoBehaviour
 
     [Header("Jump")]
     [SerializeField] private int maxJumps = 2;
+    public int jumpsCounter = 0;
     [SerializeField] private float jumpForce;
     [SerializeField] private bool isWallJumping = false;
     [SerializeField] private float wallJumpDelay = 0;
@@ -39,7 +40,7 @@ public class InputsController : MonoBehaviour
 
 
     private bool isGrounded = false;
-    public int jumpsCounter = 0;
+    
     private float width=0;
     private float height=0;
 
@@ -54,6 +55,21 @@ public class InputsController : MonoBehaviour
     }
 
     void FixedUpdate() {
+
+        
+
+        //Gere la gravité
+        PlayerGravity();
+
+        //Gere les collisions avec les plateformes
+        RaycastCollision();
+
+        //Update la position du joueur à chaque frame
+        UpdatePosition();
+    }
+
+    void Update()
+    {
 
         //Gere les déplacements horizontaux du joueur
         if (!isWallJumping)
@@ -70,23 +86,8 @@ public class InputsController : MonoBehaviour
         //Gere le dash
         DashInput();
 
-        //Gere la gravité
-        PlayerGravity();
 
-        //Gere les collisions avec les plateformes
-        RaycastCollision();
 
-        //Update la position du joueur à chaque frame
-        UpdatePosition();
-    }
-
-    void Update()
-    {
-        
-
-        
-
-        
     }
 
 
@@ -267,6 +268,17 @@ public class InputsController : MonoBehaviour
         {
             playerSpeed.y = -gravityDown;
         }
+
+        //Raycast vers le bas pour savoir si on est sur une plateforme pour que la vitesse du joueur se synchronise avec celle de la plateforme
+        RaycastHit2D hitPlatform = Physics2D.Raycast(PlayerPosition, Vector2.down, height + 0.1f, layerNotTraversablePlatforms+layerTraversablePlatforms);
+        Debug.DrawRay(PlayerPosition, Vector2.down * (height + 0.1f), Color.green);
+        
+        if (hitPlatform && hitPlatform.transform.gameObject.CompareTag("MovingPlatform"))
+        {
+            playerSpeed += new Vector2(hitPlatform.transform.gameObject.GetComponent<PlatformMovements>().speed, 0);
+        }
+
+
     }
 
 

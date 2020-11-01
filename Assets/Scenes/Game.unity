@@ -216,6 +216,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Horizontal Moving Platform
       objectReference: {fileID: 0}
+    - target: {fileID: 2291205388772773703, guid: fe0fa40af9111a9458ef52f79d8ade56,
+        type: 3}
+      propertyPath: m_TagString
+      value: MovingPlatform
+      objectReference: {fileID: 0}
     - target: {fileID: 2291205388772773704, guid: fe0fa40af9111a9458ef52f79d8ade56,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -380,6 +385,7 @@ MonoBehaviour:
   playerSpeed: {x: 0, y: 0}
   maxSpeed: 7
   maxJumps: 2
+  jumpsCounter: 0
   jumpForce: 15
   isWallJumping: 0
   wallJumpDelay: 0.4
@@ -393,7 +399,6 @@ MonoBehaviour:
   layerTraversablePlatforms:
     serializedVersion: 2
     m_Bits: 256
-  jumpsCounter: 0
 --- !u!50 &860883657
 Rigidbody2D:
   serializedVersion: 4
@@ -653,7 +658,7 @@ PrefabInstance:
     - target: {fileID: 1095533291847869139, guid: 7b8b0073cdc5aa04ba8e15db4ce38b01,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.504
+      value: -3.4
       objectReference: {fileID: 0}
     - target: {fileID: 1095533291847869139, guid: 7b8b0073cdc5aa04ba8e15db4ce38b01,
         type: 3}
