@@ -6,7 +6,8 @@ using UnityEngine.SceneManagement;
 public class MainMenu : MonoBehaviour
 {
     [SerializeField] private GameObject optionsPanel = null;
-    
+    [SerializeField] private GameObject inputsPanel = null;
+
     [SerializeField] private GameObject mainMenu = null;
 
 
@@ -35,6 +36,16 @@ public class MainMenu : MonoBehaviour
     public void quitoptionsButton()
     {
         optionsPanel.SetActive(false);
+    }
+
+    public void InputsPanel()
+    {
+        inputsPanel.SetActive(true);
+    }
+
+    public void quitInputsPanel()
+    {
+        inputsPanel.SetActive(false);
     }
 
     public void quit() 

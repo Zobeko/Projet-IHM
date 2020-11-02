@@ -99,6 +99,7 @@ public class InputsController : MonoBehaviour
         //Gere le dash
         DashInput();
 
+        
 
 
     }

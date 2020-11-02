@@ -4,7 +4,13 @@ using UnityEngine;
 
 public class Flag : Trigger
 {
+    [SerializeField] private GameObject endScreen = null;
+
     override public void TriggerAction(InputsController player){
-        player.Die();
+        endScreen.SetActive(true);
+        Time.timeScale = 0f;
+        Cursor.visible = true;
     }
+
+    
 }  
