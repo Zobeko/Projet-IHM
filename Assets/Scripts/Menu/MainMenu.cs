@@ -24,6 +24,7 @@ public class MainMenu : MonoBehaviour
     {
         mainMenu.SetActive(false);
         Cursor.visible = false;
+        Time.timeScale = 1f;
     }
 
     public void options()
