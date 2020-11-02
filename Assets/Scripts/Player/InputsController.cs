@@ -26,6 +26,7 @@ public class InputsController : MonoBehaviour
     [SerializeField] private int maxJumps = 2;
     public int jumpsCounter = 0;
     public float jumpForce;
+    [SerializeField] private float doubleJumpForce = 0f;
     [SerializeField] private float wallJumpDelay = 0;
     [SerializeField] private float wallJumpForceX = 0;
     [SerializeField] private float wallJumpForceY = 0;
@@ -41,7 +42,7 @@ public class InputsController : MonoBehaviour
     [SerializeField] private LayerMask layerTraversablePlatforms;
 
 
-    private bool isGrounded = false;
+    [SerializeField]private bool isGrounded = false;
     private bool isWallJumping = false;
     private float width=0;
     private float height=0;
@@ -144,12 +145,19 @@ public class InputsController : MonoBehaviour
 
     private void JumpInputs()
     {
-        if (Input.GetButtonDown("Jump") && jumpsCounter < maxJumps)
+        if (Input.GetButtonDown("Jump") && jumpsCounter < maxJumps && !isGrounded)
+        {
+            playerSpeed.y = doubleJumpForce;
+            jumpsCounter++;
+
+        }
+        else if (Input.GetButtonDown("Jump") && jumpsCounter < maxJumps)
         {
             playerSpeed.y = jumpForce;
             jumpsCounter++;
             isGrounded = false;
         }
+        
     }
 
     private void SprintInput()

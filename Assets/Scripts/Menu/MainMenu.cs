@@ -17,8 +17,18 @@ public class MainMenu : MonoBehaviour
     {
         Cursor.visible = true;
         Time.timeScale = 0f;
+        Time.timeScale = 1f;
+
     }
     
+    void update() 
+    {
+        Debug.Log("a");
+        if(Input.GetButton("A")) {
+            Debug.Log("a");
+            play();
+        }
+    }
 
 
     public void play() 
