@@ -163,4 +163,3 @@ MonoBehaviour:
   layerTraversablePlatforms:
     serializedVersion: 2
     m_Bits: 256
-  isGrounded: 0
