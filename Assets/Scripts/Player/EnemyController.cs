@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyController : MonoBehaviour
+public class EnemyController : Trigger
 {
 
     private Vector2 speed;
@@ -31,6 +31,10 @@ public class EnemyController : MonoBehaviour
     void Start()
     {
         speed = new Vector2(maxSpeed, 0);
+    }
+
+     override public void TriggerAction(InputsController player){
+        player.Die();
     }
 
     // Update is called once per frame

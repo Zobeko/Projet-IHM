@@ -8,6 +8,8 @@ public class DeadlyPlatform : MonoBehaviour
     public float tolerance = 0f;
     [SerializeField] private LayerMask playerLayerMask;
 
+    [SerializeField] private GameObject player;
+
     private float width = 0f;
     private float height = 0f;
 
@@ -37,7 +39,8 @@ public class DeadlyPlatform : MonoBehaviour
 
             if (Physics2D.Raycast(raycastOriginWidth, Vector2.up, (height / 2) + tolerance, playerLayerMask) || Physics2D.Raycast(raycastOriginWidth, Vector2.down, (height / 2) + tolerance, playerLayerMask) || Physics2D.Raycast(raycastOriginHeight, Vector2.right, (width / 2) + tolerance, playerLayerMask) || Physics2D.Raycast(raycastOriginHeight, Vector2.left, (width / 2) + tolerance, playerLayerMask))
             {
-                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                player.GetComponent<InputsController>().Die();
             }
 
 

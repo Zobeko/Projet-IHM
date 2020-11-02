@@ -46,6 +46,8 @@ public class InputsController : MonoBehaviour
     private float width=0;
     private float height=0;
 
+    private Vector3 spawningPoint;
+
     void Awake()
     {
 
@@ -54,7 +56,17 @@ public class InputsController : MonoBehaviour
     }
     void Start()
     {
+        spawningPoint = transform.position;
         playerSpeed = Vector2.zero;
+    }
+
+    public void Die()
+    {
+        transform.position = spawningPoint;
+    }
+
+    private void OnTriggerEnter2D(Collider2D other) {
+        other.gameObject.GetComponent<Trigger>().TriggerAction(this);
     }
 
     void FixedUpdate() {
