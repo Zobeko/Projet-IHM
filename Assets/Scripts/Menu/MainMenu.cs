@@ -17,7 +17,7 @@ public class MainMenu : MonoBehaviour
     {
         Cursor.visible = true;
         Time.timeScale = 0f;
-        Time.timeScale = 1f;
+
 
     }
     
