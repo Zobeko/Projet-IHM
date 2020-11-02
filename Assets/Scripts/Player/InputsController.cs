@@ -192,11 +192,11 @@ public class InputsController : MonoBehaviour
     {
         for (int i = 0; i < 2; i++)
         {
-            Debug.DrawRay(PlayerPosition, Vector2.down * (height + jumpTolerance), Color.yellow);
+            
 
             if(Physics2D.Raycast(PlayerPosition, Vector2.down, (height + jumpTolerance), layerTraversablePlatforms + layerNotTraversablePlatforms))
             {
-                Debug.Log("hit");
+                
                 jumpsCounter = 0;
                 isGrounded = true;
             }

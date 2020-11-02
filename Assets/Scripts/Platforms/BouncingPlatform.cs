@@ -41,7 +41,7 @@ public class BouncingPlatform : MonoBehaviour
             if(Physics2D.Raycast(raycastOrigin, Vector2.up, (height/2 + tolerance), playerLayerMask))
             {
                 playerInputController.playerSpeed.y = bouncingForce;
-                playerInputController.jumpsCounter = 1; //Pour pouvoir faire un saut apres le saut dû à la plateforme
+                playerInputController.jumpsCounter = 0; //Pour pouvoir faire un saut apres le saut dû à la plateforme
             }
             Debug.DrawRay(raycastOrigin, Vector2.up * ((height / 2) + tolerance), Color.red, Mathf.Infinity);
 
