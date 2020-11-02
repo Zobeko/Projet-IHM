@@ -6,10 +6,24 @@ using UnityEngine.SceneManagement;
 public class MainMenu : MonoBehaviour
 {
     [SerializeField] private GameObject optionsPanel = null;
+    
+    [SerializeField] private GameObject mainMenu = null;
+
+
+    
+
+    void Awake()
+    {
+        Cursor.visible = true;
+        Time.timeScale = 0f;
+    }
+    
+
 
     public void play() 
     {
-        this.gameObject.SetActive(false);
+        mainMenu.SetActive(false);
+        Cursor.visible = false;
     }
 
     public void options()
@@ -26,4 +40,8 @@ public class MainMenu : MonoBehaviour
     {
         Application.Quit();
     }
+
+    
+
+    
 }
