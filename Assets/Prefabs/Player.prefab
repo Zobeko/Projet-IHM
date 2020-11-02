@@ -156,7 +156,7 @@ MonoBehaviour:
   wallJumpForceX: 12
   wallJumpForceY: 7
   sprintFactor: 1.5
-  dashForce: 100
+  dashForce: 140
   layerNotTraversablePlatforms:
     serializedVersion: 2
     m_Bits: 512
