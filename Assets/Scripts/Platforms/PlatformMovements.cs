@@ -31,11 +31,11 @@ public class PlatformMovements : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Position.x >= (initialPosition.x + amplitude))
+        if(Position.x >= (initialPosition.x + amplitude) && speed > 0)
         {
             DirectionChange = false;
         }
-        else if (Position.x <= (initialPosition.x - amplitude))
+        else if (Position.x <= (initialPosition.x - amplitude) && speed < 0)
         {
             DirectionChange = true;
         }
