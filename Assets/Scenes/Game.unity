@@ -13694,7 +13694,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1440231393
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20242,12 +20242,12 @@ PrefabInstance:
     - target: {fileID: 3860217116718966976, guid: 90ef7ab7ffda37747a645d0309403385,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -10.9
+      value: -11.61
       objectReference: {fileID: 0}
     - target: {fileID: 3860217116718966976, guid: 90ef7ab7ffda37747a645d0309403385,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -5.8
+      value: -6.06
       objectReference: {fileID: 0}
     - target: {fileID: 3860217116718966976, guid: 90ef7ab7ffda37747a645d0309403385,
         type: 3}
@@ -20303,6 +20303,16 @@ PrefabInstance:
         type: 3}
       propertyPath: doubleJumpForce
       value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 3860217116718966989, guid: 90ef7ab7ffda37747a645d0309403385,
+        type: 3}
+      propertyPath: checkpoint.x
+      value: -8.16
+      objectReference: {fileID: 0}
+    - target: {fileID: 3860217116718966989, guid: 90ef7ab7ffda37747a645d0309403385,
+        type: 3}
+      propertyPath: checkpoint.y
+      value: 10.95
       objectReference: {fileID: 0}
     - target: {fileID: 3860217116718966991, guid: 90ef7ab7ffda37747a645d0309403385,
         type: 3}

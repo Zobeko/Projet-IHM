@@ -49,6 +49,9 @@ public class InputsController : MonoBehaviour
 
     private Vector3 spawningPoint;
 
+    [Header("Checkpoints")]
+    [SerializeField] private Vector2 checkpoint;
+
     void Awake()
     {
 
@@ -100,11 +103,15 @@ public class InputsController : MonoBehaviour
         //Gere le dash
         DashInput();
 
-        
-
+        Checkpoints();   
 
     }
 
+    public void Checkpoints() {
+        if (PlayerPosition.y >= checkpoint.y - 1){
+            spawningPoint = checkpoint;
+        }
+    }
 
     private void PlayerGravity()
     {
@@ -213,9 +220,9 @@ public class InputsController : MonoBehaviour
     {
         for (int i = 0; i < 2; i++)
         {
-            
+            RaycastHit2D hit = Physics2D.Raycast(PlayerPosition + height*Vector2.down, Vector2.down, (0.1f + jumpTolerance), layerTraversablePlatforms + layerNotTraversablePlatforms);
 
-            if(Physics2D.Raycast(PlayerPosition, Vector2.down, (height + jumpTolerance), layerTraversablePlatforms + layerNotTraversablePlatforms))
+            if(hit && hit.normal == Vector2.up)
             {
                 
                 jumpsCounter = 0;
@@ -241,7 +248,7 @@ public class InputsController : MonoBehaviour
         if (normalSpeed <= 0)
             return false;
 
-        int n = 5;
+        int n = 7;
         RaycastHit2D[] hits = new RaycastHit2D[n];
         Vector2 rayOrigin;
         float minimalDistanceToHit = -1;
@@ -252,11 +259,11 @@ public class InputsController : MonoBehaviour
         
             hits[k] = Physics2D.Raycast(
             PlayerPosition + rayOrigin,
-            playersNormal,
-            normalSpeed * Time.deltaTime,
+            playerSpeed.normalized,
+            norme(playerSpeed) * Time.deltaTime,
             layerMask);
 
-            Debug.DrawRay(PlayerPosition + rayOrigin, 20* playersNormal * normalSpeed * Time.deltaTime, Color.blue);
+            Debug.DrawRay(PlayerPosition + rayOrigin, 10 * playerSpeed * Time.deltaTime, Color.blue);
         }
    
         foreach(RaycastHit2D hit in hits) 
@@ -268,9 +275,9 @@ public class InputsController : MonoBehaviour
         }
 
         if (minimalDistanceToHit > 0) {
-            playerSpeed -= normalSpeed * playersNormal;
-            playerSpeed += minimalDistanceToHit * playersNormal;
-            //playerPosition += playerSpeed.normalized * minimalDistanceToHit;
+            //playerSpeed -= normalSpeed * playersNormal;
+            //playerSpeed += minimalDistanceToHit * playersNormal;
+            playerPosition += playerSpeed.normalized * minimalDistanceToHit;
             return true;
         }
 
@@ -285,12 +292,13 @@ public class InputsController : MonoBehaviour
         {
             playerSpeed.y = 0;
         }
+    
         
 
         //left
         if (playerSpeed.x < 0 && TestOneFaceCollisions(new Vector2(-width, -height), new Vector2(-width, height), layerNotTraversablePlatforms + layerTraversablePlatforms))
         {
-            //playerSpeed.x = 0; 
+            playerSpeed.x = 0; 
             int dir = -1; //Mur à gauche du joueur donc dir = -1
             WallJumpInput(dir);
         }
@@ -298,7 +306,7 @@ public class InputsController : MonoBehaviour
         //right
         if (playerSpeed.x > 0 && TestOneFaceCollisions(new Vector2(width, -height), new Vector2(width, height), layerNotTraversablePlatforms + layerTraversablePlatforms))
         {
-            //playerSpeed.x = 0;       
+            playerSpeed.x = 0;       
             int dir = 1; //Mur à droite du joueur donc dir = 1
             WallJumpInput(dir);
         }
@@ -306,6 +314,7 @@ public class InputsController : MonoBehaviour
         //Collision avec le bas d'une plateforme
         if (playerSpeed.y > 0 && TestOneFaceCollisions(new Vector2(width, height), new Vector2(-width, height), layerNotTraversablePlatforms))
         {
+            playerSpeed.y = 0;
            // playerSpeed.y = -gravityDown;
         }
 
