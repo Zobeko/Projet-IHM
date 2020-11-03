@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class MainMenu : MonoBehaviour
 {
@@ -9,7 +10,8 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private GameObject inputsPanel = null;
 
     [SerializeField] private GameObject mainMenu = null;
-
+    
+    [SerializeField] private GameObject audioButton = null;
 
     
 
@@ -27,6 +29,18 @@ public class MainMenu : MonoBehaviour
         if(Input.GetButton("A")) {
             Debug.Log("a");
             play();
+        }
+    }
+
+    public void AudioButton() {
+        if (AudioListener.volume == 0)
+        {
+            audioButton.GetComponent<TextMeshProUGUI>().text = "Desactiver Son";
+            AudioListener.volume = 1;
+        }
+        else {
+            audioButton.GetComponent<TextMeshProUGUI>().text = "Activer Son";
+            AudioListener.volume = 0;
         }
     }
 

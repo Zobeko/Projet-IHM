@@ -169,6 +169,8 @@ MonoBehaviour:
   checkpoint: {x: 0, y: 0}
   audioSource: {fileID: 3686660517524069073}
   dashAudioClip: {fileID: 8300000, guid: f03cae5302f44e940bf3266961ee1aaf, type: 3}
+  jumpAudio: {fileID: 8300000, guid: ad5575e4bdd146a4883e0e3995f50c77, type: 3}
+  doubleJumpAudio: {fileID: 8300000, guid: ad5575e4bdd146a4883e0e3995f50c77, type: 3}
 --- !u!82 &3686660517524069073
 AudioSource:
   m_ObjectHideFlags: 0

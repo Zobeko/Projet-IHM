@@ -1,12 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class PauseMenu : MonoBehaviour
 {
     [SerializeField] private GameObject optionsPanel = null;
     [SerializeField] private GameObject pauseMenu = null;
     private bool isPauseActivated = false;
+
+    [SerializeField] private GameObject audioButton = null;
 
 
     void Update()
@@ -22,6 +25,19 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 1f;
     }
 
+    public void AudioButton() {
+        Debug.Log("ferljgeruoh");
+        if (AudioListener.volume == 0)
+        {
+            audioButton.GetComponent<TextMeshProUGUI>().text = "Desactiver Son";
+            AudioListener.volume = 1;
+        }
+        else {
+            audioButton.GetComponent<TextMeshProUGUI>().text = "Activer Son";
+            AudioListener.volume = 0;
+        }
+    }
+    
     public void options()
     {
         Cursor.visible = true;
@@ -48,7 +64,7 @@ public class PauseMenu : MonoBehaviour
             {
                 isPauseActivated = true;
                 pauseMenu.SetActive(true);
-                Time.timeScale = 0f;
+                //Time.timeScale = 0f;
                 Cursor.visible = false;
             }
             else

@@ -55,6 +55,10 @@ public class InputsController : MonoBehaviour
     [Header("Audio")]
     [SerializeField] private AudioSource audioSource = null;
     [SerializeField] private AudioClip dashAudioClip = null;
+    [SerializeField] private AudioClip jumpAudio = null;
+    [SerializeField] private AudioClip doubleJumpAudio = null;
+    [SerializeField] private AudioClip deathAudio = null;
+
 
     void Awake()
     {
@@ -70,6 +74,7 @@ public class InputsController : MonoBehaviour
 
     public void Die()
     {
+        audioSource.PlayOneShot(deathAudio);
         transform.position = spawningPoint;
     }
 
@@ -158,12 +163,14 @@ public class InputsController : MonoBehaviour
     {
         if (Input.GetButtonDown("Jump") && jumpsCounter < maxJumps && !isGrounded)
         {
+            audioSource.PlayOneShot(doubleJumpAudio);
             playerSpeed.y = doubleJumpForce;
             jumpsCounter++;
 
         }
         else if (Input.GetButtonDown("Jump") && jumpsCounter < maxJumps)
         {
+            audioSource.PlayOneShot(jumpAudio);
             playerSpeed.y = jumpForce;
             jumpsCounter++;
             isGrounded = false;

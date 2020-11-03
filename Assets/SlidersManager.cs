@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 
 public class SlidersManager : MonoBehaviour
@@ -15,6 +16,7 @@ public class SlidersManager : MonoBehaviour
     [SerializeField] private Slider tolerancePlateformesSlider = null;
     [SerializeField] private Slider forceRebondissementSlider = null;
 
+
     [SerializeField] private GameObject player = null;
     private InputsController playerInputsController = null;
 
@@ -27,7 +29,7 @@ public class SlidersManager : MonoBehaviour
     [SerializeField] private GameObject bouncingPlatform = null;
     private BouncingPlatform bouncingPlatformScript = null;
 
-
+    
     void Awake()
     {
         playerInputsController = player.GetComponent<InputsController>();
@@ -54,6 +56,7 @@ public class SlidersManager : MonoBehaviour
         bouncingPlatformScript.tolerance = tolerancePlateformesSlider.value;
         deadlyPlatformScript.tolerance = tolerancePlateformesSlider.value;
         bouncingPlatformScript.bouncingForce = forceRebondissementSlider.value;
+
 
     }
 }
