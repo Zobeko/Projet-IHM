@@ -122,7 +122,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   numberOfRaycasts: 10
-  raycastsDistanceOffset: 0.2
+  tolerance: 0.2
   playerLayerMask:
     serializedVersion: 2
     m_Bits: 1024
+  player: {fileID: 0}

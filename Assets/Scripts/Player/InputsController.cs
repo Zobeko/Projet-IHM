@@ -248,7 +248,7 @@ public class InputsController : MonoBehaviour
         if (normalSpeed <= 0)
             return false;
 
-        int n = 7;
+        int n = 20;
         RaycastHit2D[] hits = new RaycastHit2D[n];
         Vector2 rayOrigin;
         float minimalDistanceToHit = -1;
