@@ -8,6 +8,9 @@ public class BouncingPlatform : MonoBehaviour
     [SerializeField] private LayerMask playerLayerMask;
     public float tolerance = 0f;
     private InputsController playerInputController = null;
+
+    [SerializeField] private AudioSource audioSource = null;
+    [SerializeField] private AudioClip bounceAudioClip = null;
     
 
 
@@ -42,6 +45,8 @@ public class BouncingPlatform : MonoBehaviour
             {
                 playerInputController.playerSpeed.y = bouncingForce;
                 playerInputController.jumpsCounter = 0; //Pour pouvoir faire un saut apres le saut dû à la plateforme
+
+                audioSource.PlayOneShot(bounceAudioClip);
             }
             Debug.DrawRay(raycastOrigin, Vector2.up * ((height / 2) + tolerance), Color.red, Mathf.Infinity);
 

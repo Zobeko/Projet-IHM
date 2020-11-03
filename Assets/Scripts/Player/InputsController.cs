@@ -52,6 +52,10 @@ public class InputsController : MonoBehaviour
     [Header("Checkpoints")]
     [SerializeField] private Vector2 checkpoint;
 
+    [Header("Audio")]
+    [SerializeField] private AudioSource audioSource = null;
+    [SerializeField] private AudioClip dashAudioClip = null;
+
     void Awake()
     {
 
@@ -181,10 +185,12 @@ public class InputsController : MonoBehaviour
         {
             if (playerSpeed.x >= 0)
             {
+                audioSource.PlayOneShot(dashAudioClip);
                 playerSpeed.x += dashForce;
             }
             else
             {
+                audioSource.PlayOneShot(dashAudioClip);
                 playerSpeed.x += -dashForce;
             }
         }

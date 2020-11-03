@@ -7,6 +7,8 @@ public class DeadlyPlatform : MonoBehaviour
     [SerializeField] private int numberOfRaycasts = 0;
     public float tolerance = 0f;
     [SerializeField] private LayerMask playerLayerMask;
+    [SerializeField] private AudioSource audioSource = null;
+    [SerializeField] private AudioClip deathAudioClip = null;
 
     [SerializeField] private GameObject player;
 
@@ -41,6 +43,7 @@ public class DeadlyPlatform : MonoBehaviour
             {
                 //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
                 player.GetComponent<InputsController>().Die();
+                audioSource.PlayOneShot(deathAudioClip);
             }
 
 
